@@ -32,16 +32,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	println("2")
 	service := ec2.New(sess)
 
 	response, err := service.DescribeTags(&ec2.DescribeTagsInput{
 		MaxResults: aws.Int64(100),
 	})
-	println("3")
 
 	if err != nil {
-		return
+		panic(err)
 	}
 
 	fmt.Printf("%+v", response)
