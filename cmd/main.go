@@ -22,31 +22,29 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%+v", identity)
-	sess, err := newSession(config.AWSAccessKeyID, config.AWSAccessKeySecret, identity.RegionID)
+	fmt.Printf("%+v \n", identity)
+	sess, err := session.NewSession(&aws.Config{
+		Region:           aws.String(identity.RegionID),
+		S3ForcePathStyle: aws.Bool(true),
+		Credentials:      credentials.NewStaticCredentials(config.AWSAccessKeyID, config.AWSAccessKeySecret, ""),
+		DisableSSL:       aws.Bool(false),
+	})
 	if err != nil {
 		panic(err)
 	}
+	println("2")
 	service := ec2.New(sess)
 
 	response, err := service.DescribeTags(&ec2.DescribeTagsInput{
 		MaxResults: aws.Int64(100),
 	})
+	println("3")
 
 	if err != nil {
 		return
 	}
 
 	fmt.Printf("%+v", response.Tags)
-}
-
-func newSession(id, secret, region string) (*session.Session, error) {
-	return session.NewSession(&aws.Config{
-		Region:           aws.String(region),
-		S3ForcePathStyle: aws.Bool(true),
-		Credentials:      credentials.NewStaticCredentials(id, secret, ""),
-		DisableSSL:       aws.Bool(false),
-	})
 }
 
 // 初始化配置项
