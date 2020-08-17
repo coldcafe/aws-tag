@@ -42,7 +42,13 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("%+v", response)
+	fmt.Printf("%+v", response.Tags)
+
+	tags := map[string]string{}
+	for _, tagResource := range response.Tags {
+		tags[*tagResource.Key] = *tagResource.Value
+	}
+	fmt.Printf("%+v", tags)
 }
 
 // 初始化配置项
