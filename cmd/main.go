@@ -44,7 +44,7 @@ func main() {
 		return
 	}
 
-	fmt.Printf("%+v", response.Tags)
+	fmt.Printf("%+v", response)
 }
 
 // 初始化配置项
